@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Usage
+#./mediawiki.sh <db_ip>
+
 # Download URL for mediawiki
 MW_DOWNLOAD_URL="https://releases.wikimedia.org/mediawiki/1.26/mediawiki-1.26.2.tar.gz"
 
