@@ -80,7 +80,7 @@ case "$1" in
         stop
         ;;
   *)
-        echo $"Usage: $0 {start|startBlocking|configure|stop}"
+        echo $"Usage: $0 {install|start|startBlocking|configure|stop}"
         exit 1
 esac
 
