@@ -64,6 +64,9 @@ stop() {
 
 ### main logic ###
 case "$1" in
+  install)
+        install
+        ;;
   start)
         start
         ;;
