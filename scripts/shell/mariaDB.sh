@@ -36,6 +36,9 @@ configure() {
     mysql -u root -p${ROOT_PW} -e "GRANT ALL PRIVILEGES ON $DB.* TO '$DB_USER'@'%' IDENTIFIED BY '$DB_PASS';";
     mysql -u root -p${ROOT_PW} -e "FLUSH PRIVILEGES;"
 
+    #configure bind address
+    sudo sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
+
     sudo service mysql stop
 }
 
