@@ -38,11 +38,11 @@ install() {
 }
 
 configure() {
-    sudo service apache2 start
     if ! [[ -n "$DB_HOST" ]]; then
         echo "you need to supply a db host"
         exit 1
     fi
+    sudo service apache2 start
     # run mediawiki installation skript
     php mediawiki/maintenance/install.php --dbuser ${DB_USER} --dbpass ${DB_PASS} --dbname ${DB} --dbserver ${DB_HOST} --pass ${PASS} $NAME "admin"
     sudo service apache2 stop
