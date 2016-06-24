@@ -1,5 +1,8 @@
 #!/bin/bash
 
+MY_DIR="$(dirname "$0")"
+source "$MY_DIR/util.sh"
+
 # usage
 #./nginx.sh <ip> <ip> ...
 
@@ -7,7 +10,7 @@ IPS=${@:2}
 
 install() {
     # update apt-get
-    sudo apt-get --yes update && sudo apt-get --yes upgrade
+    apt_update
 
     # install nginx
     nginx=stable
