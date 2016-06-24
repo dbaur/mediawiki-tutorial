@@ -22,7 +22,7 @@ start() {
 }
 
 startBlocking() {
-    sudo service mysql stop
+    sudo service mysql start && sleep infinity
 }
 
 
