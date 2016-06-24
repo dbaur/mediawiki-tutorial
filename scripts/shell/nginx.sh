@@ -62,7 +62,7 @@ startBlocking() {
 }
 
 stop() {
-    sudo killall nginx
+    sudo service nginx stop
 }
 
 ### main logic ###
