@@ -86,13 +86,3 @@ case "$1" in
         echo $"Usage: $0 {install|start|startBlocking|configure|stop}"
         exit 1
 esac
-
-
-
-
-
-
-
-
-# restart nginx
-sudo service nginx restart
