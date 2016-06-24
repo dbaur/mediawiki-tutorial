@@ -34,7 +34,7 @@ touch wiki.tmp
 
 echo 'upstream wiki {' >> wiki.tmp
 
-for var in "$ARGS"
+for var in "$IPS"
 do
     echo "    server $var:80;" >> wiki.tmp
 done
