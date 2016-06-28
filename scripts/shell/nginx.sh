@@ -38,14 +38,14 @@ done
 
 echo '}' >> wiki.tmp
 echo 'server {' >> wiki.tmp
-echo '    listen 8080;' >> wiki.tmp
+echo '    listen 80;' >> wiki.tmp
 echo '    location / {' >> wiki.tmp
 echo '      proxy_pass http://wiki;' >> wiki.tmp
 echo '    }' >> wiki.tmp
 echo '  }' >> wiki.tmp
 
 sudo mv wiki.tmp /etc/nginx/sites-available/wiki.conf
-sudo rm -f /etc/nginx/sites-enabled/wiki
+sudo rm -f /etc/nginx/sites-enabled/*
 sudo ln -s /etc/nginx/sites-available/wiki.conf /etc/nginx/sites-enabled/wiki
 }
 
