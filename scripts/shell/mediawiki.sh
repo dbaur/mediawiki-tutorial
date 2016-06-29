@@ -3,6 +3,8 @@
 MY_DIR="$(dirname "$0")"
 source "$MY_DIR/util.sh"
 
+TMP_DIR="/tmp"
+
 # Download URL for mediawiki
 MW_DOWNLOAD_URL="https://releases.wikimedia.org/mediawiki/1.26/mediawiki-1.26.2.tar.gz"
 
@@ -21,18 +23,18 @@ install() {
     # Install dependencies (apache2, php5, php5-mysql)
     sudo apt-get --yes install apache2 php5 php5-mysql
     # remove existing mediawiki archive
-    rm -f mediawiki.tar.gz
+    rm -f ${TMP_DIR}/mediawiki.tar.gz
     # download mediawiki tarball
-    wget ${MW_DOWNLOAD_URL} -O mediawiki.tar.gz
+    wget ${MW_DOWNLOAD_URL} -O ${TMP_DIR}/mediawiki.tar.gz
     # remove existing mediawiki folder
-    rm -rf mediawiki
-    mkdir mediawiki
+    sudo rm -rf /opt/mediawiki
+    sudo mkdir -p /opt/mediawiki
     # extract mediawiki tarball
-    tar -xvzf mediawiki.tar.gz -C mediawiki --strip-components=1
+    sudo tar -xvzf ${TMP_DIR}/mediawiki.tar.gz -C /opt/mediawiki --strip-components=1
     # remove existing mediawiki symbolic link
     sudo rm -rf /var/www/html/wiki
     # create symbolic link
-    sudo ln -s ~/mediawiki /var/www/html/wiki
+    sudo ln -s /opt/mediawiki /var/www/html/wiki
     # stop apache
     sudo service apache2 stop
 }
@@ -44,7 +46,7 @@ configure() {
     fi
     sudo service apache2 start
     # run mediawiki installation skript
-    php mediawiki/maintenance/install.php --dbuser ${DB_USER} --dbpass ${DB_PASS} --dbname ${DB} --dbserver ${DB_HOST} --pass ${PASS} $NAME "admin"
+    sudo php /opt/mediawiki/maintenance/install.php --dbuser ${DB_USER} --dbpass ${DB_PASS} --dbname ${DB} --dbserver ${DB_HOST} --pass ${PASS} $NAME "admin"
     sudo service apache2 stop
 }
 
