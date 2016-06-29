@@ -35,7 +35,7 @@ touch ${TMP_DIR}/wiki.tmp
 
 echo 'upstream wiki {' >> ${TMP_DIR}/wiki.tmp
 
-for var in "$IPS"
+for var in ${IPS}
 do
     echo "    server $var:80;" >> ${TMP_DIR}/wiki.tmp
 done
