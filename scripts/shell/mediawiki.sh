@@ -21,7 +21,7 @@ PASS="admin1345"
 install() {
     apt_update
     # Install dependencies (apache2, php5, php5-mysql)
-    sudo apt-get --yes install apache2 php5 php5-mysql
+    sudo apt-get --yes install apache2 php5 php5-mysql wget
     # remove existing mediawiki archive
     rm -f ${TMP_DIR}/mediawiki.tar.gz
     # download mediawiki tarball

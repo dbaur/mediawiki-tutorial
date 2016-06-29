@@ -6,7 +6,6 @@ MY_DIR="$(dirname "$0")"
 ### main logic ###
 case "$1" in
   configure)
-        WIKI_HOSTS="0.0.0.0"
         if [ -z ${PUBLIC_LOADBALANCERREQWIKI+123} ] ; then
                 MESSAGE="Environment variable PUBLIC_LOADBALANCERREQWIKI required, but not set."
                 echo $MESSAGE
