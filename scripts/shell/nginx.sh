@@ -17,6 +17,8 @@ install() {
     sudo apt-get --yes update
     sudo apt-get --yes install nginx
 
+    sudo rm -f /etc/nginx/sites-enabled/*
+
     sudo service nginx stop
 }
 
@@ -49,6 +51,9 @@ echo '  }' >> ${TMP_DIR}/wiki.tmp
 sudo mv ${TMP_DIR}/wiki.tmp /etc/nginx/sites-available/wiki.conf
 sudo rm -f /etc/nginx/sites-enabled/*
 sudo ln -s /etc/nginx/sites-available/wiki.conf /etc/nginx/sites-enabled/wiki
+
+sudo service nginx reload
+
 }
 
 start() {
