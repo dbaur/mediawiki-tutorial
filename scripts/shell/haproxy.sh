@@ -41,7 +41,7 @@ do
     SERVERS+="server wiki$i $var:80\\n check"
     ((i++))
 done
-sudo sed -i -e "s/\${servers}/${SERVERS}/" /etc/haproxy/haproxy.cfg
+sudo sed -i -e "s/\${servers}/${SERVERS}/" ${TMP_DIR}/haproxy.tmp
 
 # mv temp file to real location
 sudo mv /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bak
