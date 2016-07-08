@@ -11,7 +11,7 @@ install() {
     apt_update
 
     #install haproxy
-    sudo apt-get install haproxy wget
+    sudo apt-get -y install haproxy wget
 
     #enable haproxy
     sudo sed -i "s/ENABLED=0/ENABLED=1/g" /etc/default/haproxy
