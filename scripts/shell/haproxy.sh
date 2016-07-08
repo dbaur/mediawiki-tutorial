@@ -3,7 +3,7 @@
 MY_DIR="$(dirname "$0")"
 source "$MY_DIR/util.sh"
 TMP_DIR="/tmp"
-CONFIG_URL="http:/123"
+CONFIG_URL="https://raw.githubusercontent.com/dbaur/mediawiki-tutorial/master/config/haproxy.cfg"
 
 IPS=${@:2}
 
