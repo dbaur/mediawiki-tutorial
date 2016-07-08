@@ -38,7 +38,7 @@ i=1
 SERVERS=""
 for var in ${IPS}
 do
-    SERVERS+="server wiki$i $var:80\\n check"
+    SERVERS+="server wiki$i $var:80 check\\n"
     ((i++))
 done
 sudo sed -i -e "s/\${servers}/${SERVERS}/" ${TMP_DIR}/haproxy.tmp
