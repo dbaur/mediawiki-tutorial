@@ -35,6 +35,10 @@ install() {
     sudo rm -rf /var/www/html/wiki
     # create symbolic link
     sudo ln -s /opt/mediawiki /var/www/html/wiki
+    # enable mod status
+    sudo a2enmod status
+    # allow server status from everywhere
+    sudo sed -i "s/Require local/#Require local/g" /etc/apache2/mods-enabled/status.conf
     # stop apache
     sudo service apache2 stop
 }
