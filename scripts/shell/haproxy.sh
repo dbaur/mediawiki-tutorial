@@ -39,7 +39,7 @@ SERVERS=""
 for var in ${IPS}
 do
     SERVERS+="server wiki$i $var:80\\n check"
-    i++
+    ${i}++
 done
 sudo sed -i s/\${servers}/${SERVERS}/ haproxy.cfg
 
