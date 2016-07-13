@@ -18,6 +18,9 @@ install() {
 
     sudo /etc/init.d/haproxy stop
 
+    IPS="127.0.0.1"
+    configure
+
 }
 
 configure() {
