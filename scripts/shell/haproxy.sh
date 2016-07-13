@@ -16,10 +16,10 @@ install() {
     #enable haproxy
     sudo sed -i "s/ENABLED=0/ENABLED=1/g" /etc/default/haproxy
 
-    sudo /etc/init.d/haproxy stop
-
     IPS="127.0.0.1"
     configure
+
+    sudo /etc/init.d/haproxy stop
 
 }
 
