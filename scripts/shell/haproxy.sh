@@ -3,7 +3,8 @@
 MY_DIR="$(dirname "$0")"
 source "$MY_DIR/util.sh"
 TMP_DIR="/tmp"
-CONFIG_URL="https://raw.githubusercontent.com/dbaur/mediawiki-tutorial/master/config/haproxy.cfg"
+HA_PROXY_CONFIG_URL="https://raw.githubusercontent.com/dbaur/mediawiki-tutorial/master/config/haproxy.cfg"
+RSYSLOG_CONFIG_URL="https://raw.githubusercontent.com/dbaur/mediawiki-tutorial/master/config/haproxyRsyslog.cfg"
 
 IPS=${@:2}
 
@@ -16,6 +17,11 @@ install() {
     #enable haproxy
     sudo sed -i "s/ENABLED=0/ENABLED=1/g" /etc/default/haproxy
 
+    #configure rsyslog
+    wget ${HA_PROXY_CONFIG_URL} -O ${TMP_DIR}/haproxyRsyslog.tmp
+    sudo cp ${TMP_DIR}/haproxyRsyslog.tmp /etc/rsyslog.d/haproxy.cfg
+
+    sudo /etc/init.d/rsyslog restart
     IPS="127.0.0.1"
     configure
 
@@ -34,7 +40,7 @@ fi
 # remove existing tmp file
 rm -rf ${TMP_DIR}/haproxy.tmp
 # download config template
-wget ${CONFIG_URL} -O ${TMP_DIR}/haproxy.tmp
+wget ${HA_PROXY_CONFIG_URL} -O ${TMP_DIR}/haproxy.tmp
 
 # write servers into template
 i=1
