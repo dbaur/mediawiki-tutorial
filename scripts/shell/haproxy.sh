@@ -18,8 +18,8 @@ install() {
     sudo sed -i "s/ENABLED=0/ENABLED=1/g" /etc/default/haproxy
 
     #configure rsyslog
-    wget ${RSYSLOG_CONFIG_URL} -O ${TMP_DIR}/haproxyRsyslog.tmp
-    sudo cp ${TMP_DIR}/haproxyRsyslog.tmp /etc/rsyslog.d/haproxy.conf
+    wget ${RSYSLOG_CONFIG_URL} -O ${TMP_DIR}/haProxyRsyslog.tmp
+    sudo cp ${TMP_DIR}/haProxyRsyslog.tmp /etc/rsyslog.d/haproxy.conf
 
     sudo /etc/init.d/rsyslog restart
     IPS="127.0.0.1"
