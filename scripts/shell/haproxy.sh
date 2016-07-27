@@ -4,7 +4,7 @@ MY_DIR="$(dirname "$0")"
 source "$MY_DIR/util.sh"
 TMP_DIR="/tmp"
 HA_PROXY_CONFIG_URL="https://raw.githubusercontent.com/dbaur/mediawiki-tutorial/master/config/haproxy.cfg"
-RSYSLOG_CONFIG_URL="https://raw.githubusercontent.com/dbaur/mediawiki-tutorial/master/config/haproxyRsyslog.cfg"
+RSYSLOG_CONFIG_URL="https://raw.githubusercontent.com/dbaur/mediawiki-tutorial/master/config/haProxyRsyslog.cfg"
 
 IPS=${@:2}
 

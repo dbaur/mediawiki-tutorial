@@ -1,0 +1,4 @@
+http://${HOST}/wiki/index.php/Special:Random
+http://${HOST}/wiki/index.php/Main_Page
+http://${HOST}/wiki/index.php/Special:RecentChanges
+http://${HOST}/wiki/index.php?title=Special:UserLogin&type=signup
