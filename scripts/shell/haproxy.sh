@@ -21,6 +21,7 @@ install() {
     wget ${RSYSLOG_CONFIG_URL} -O ${TMP_DIR}/haProxyRsyslog.tmp
     sudo cp ${TMP_DIR}/haProxyRsyslog.tmp /etc/rsyslog.d/haproxy.conf
 
+    sudo /etc/init.d/rsyslog stop
     sudo /etc/init.d/rsyslog restart
     IPS="127.0.0.1"
     configure
