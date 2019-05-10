@@ -11,12 +11,14 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.logging.impl.Log4JLogger;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.log4j.Logger;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.sql.Dataset;
@@ -36,6 +38,8 @@ public class App {
   private static final String WIKI = "PUBLIC_SPARKREQWIKI";
   private static final String FAAS = "PUBLIC_SPARKREQWORDCOUNT";
   private static final String FAAS_REQUEST_PATTERN = "{ \"value\": \"%s\"}";
+  private static final Logger LOGGER = Logger.getLogger(App.class);
+
 
   public static void main(String[] args) throws ParseException, IOException {
 
@@ -85,19 +89,19 @@ public class App {
       }
     }, Encoders.STRING());
 
-    System.out.println("#### WORD COUNT ###");
+    LOGGER.info("#### WORD COUNT ###");
 
     final JavaPairRDD<String, Integer> ones = words.toJavaRDD()
         .mapToPair(s -> new Tuple2<>(s, 1));
     JavaPairRDD<String, Integer> counts = ones.reduceByKey(Integer::sum);
     List<Tuple2<String, Integer>> output = counts.collect();
     for (Tuple2<?, ?> tuple : output) {
-      System.out.println(tuple._1() + ": " + tuple._2());
+      LOGGER.info(tuple._1() + ": " + tuple._2());
     }
 
-    System.out.println("### TOTAL WORD COUNT ###");
+    LOGGER.info("### TOTAL WORD COUNT ###");
 
-    System.out.println(words.count());
+    LOGGER.info(words.count());
 
     //send the wordcount to the faas app
     sendPost(faas, String.format(FAAS_REQUEST_PATTERN, words.count()));
@@ -120,7 +124,7 @@ public class App {
 
     HttpResponse rawResponse = httpClient.execute(postMethod);
 
-    System.out.println(rawResponse);
+    LOGGER.debug(rawResponse);
 
     httpClient.close();
   }
