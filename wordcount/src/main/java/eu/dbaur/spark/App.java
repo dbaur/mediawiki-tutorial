@@ -32,29 +32,35 @@ import scala.Tuple2;
 public class App {
 
   private static final Pattern SPACE = Pattern.compile(" ");
-  private static final String DATABASE_PORT = "PUBLIC_SPARKREQDATABASE";
+  private static final String DATABASE = "PUBLIC_SPARKREQDATABASE";
+  private static final String WIKI = "PUBLIC_SPARKREQWIKI";
   private static final String FAAS = "PUBLIC_SPARKREQWORDCOUNT";
   private static final String FAAS_REQUEST_PATTERN = "{ \"value\": \"%s\"}";
 
   public static void main(String[] args) throws ParseException, IOException {
 
     Options options = new Options();
-    options.addOption(DATABASE_PORT, DATABASE_PORT, true,
+    options.addOption(DATABASE, DATABASE, true,
         "URL/IP of the wiki database");
+    options.addOption(WIKI, WIKI, true,
+        "URL/IP of the wiki");
     options.addOption(FAAS, FAAS, true,
         "URL/IP of the wordcount faas");
 
     CommandLineParser parser = new BasicParser();
     final CommandLine parse = parser.parse(options, args);
 
-    if (!parse.hasOption(DATABASE_PORT)) {
-      throw new IllegalArgumentException("Argument "+DATABASE_PORT+" is required");
+    if (!parse.hasOption(DATABASE)) {
+      throw new IllegalArgumentException("Argument " + DATABASE + " is required");
     }
     if (!parse.hasOption(FAAS)) {
-      throw new IllegalArgumentException("Argument "+FAAS+" is required");
+      throw new IllegalArgumentException("Argument " + FAAS + " is required");
+    }
+    if (!parse.hasOption(WIKI)) {
+      throw new IllegalArgumentException("Argument " + WIKI + " is required");
     }
 
-    String database = parse.getOptionValue(DATABASE_PORT);
+    String database = parse.getOptionValue(DATABASE);
     String faas = parse.getOptionValue(FAAS);
 
     final String jdbc = generateJDBCUrl(database);
