@@ -6,9 +6,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
+import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.http.HttpResponse;
@@ -39,13 +39,20 @@ public class App {
   public static void main(String[] args) throws ParseException, IOException {
 
     Options options = new Options();
-    options.addRequiredOption(DATABASE_PORT, DATABASE_PORT, true,
+    options.addOption(DATABASE_PORT, DATABASE_PORT, true,
         "URL/IP of the wiki database");
-    options.addRequiredOption(FAAS, FAAS, true,
+    options.addOption(FAAS, FAAS, true,
         "URL/IP of the wordcount faas");
 
-    CommandLineParser parser = new DefaultParser();
+    CommandLineParser parser = new BasicParser();
     final CommandLine parse = parser.parse(options, args);
+
+    if (!parse.hasOption(DATABASE_PORT)) {
+      throw new IllegalArgumentException("Argument "+DATABASE_PORT+" is required");
+    }
+    if (!parse.hasOption(FAAS)) {
+      throw new IllegalArgumentException("Argument "+FAAS+" is required");
+    }
 
     String database = parse.getOptionValue(DATABASE_PORT);
     String faas = parse.getOptionValue(FAAS);
