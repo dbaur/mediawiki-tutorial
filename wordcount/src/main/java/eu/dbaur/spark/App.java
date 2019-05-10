@@ -1,10 +1,22 @@
 package eu.dbaur.spark;
 
 import com.google.common.base.Charsets;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.sql.Dataset;
@@ -20,13 +32,25 @@ import scala.Tuple2;
 public class App {
 
   private static final Pattern SPACE = Pattern.compile(" ");
+  private static final String DATABASE_PORT = "PUBLIC_SPARKREQDATABASE";
+  private static final String FAAS = "PUBLIC_SPARKREQWORDCOUNT";
+  private static final String FAAS_REQUEST_PATTERN = "{ \"value\": \"%s\"}";
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws ParseException, IOException {
 
-    //todo ready from args
-    String url = "134.60.64.245";
+    Options options = new Options();
+    options.addRequiredOption(DATABASE_PORT, DATABASE_PORT, true,
+        "URL/IP of the wiki database");
+    options.addRequiredOption(FAAS, FAAS, true,
+        "URL/IP of the wordcount faas");
 
-    final String jdbc = generateJDBCUrl(url);
+    CommandLineParser parser = new DefaultParser();
+    final CommandLine parse = parser.parse(options, args);
+
+    String database = parse.getOptionValue(DATABASE_PORT);
+    String faas = parse.getOptionValue(FAAS);
+
+    final String jdbc = generateJDBCUrl(database);
 
     final SparkSession sparkSession = SparkSession.builder().appName("WikiWordCount")
         .getOrCreate();
@@ -62,11 +86,30 @@ public class App {
 
     System.out.println(words.count());
 
+    //send the wordcount to the faas app
+    sendPost(faas, String.format(FAAS_REQUEST_PATTERN, words.count()));
+
     sparkSession.stop();
   }
 
   private static String generateJDBCUrl(String url) {
     return String.format("jdbc:mysql://%s:3306/wiki?user=wiki&password=password", url);
+  }
+
+  private static void sendPost(String url, String json) throws IOException {
+    final CloseableHttpClient httpClient = HttpClients.createDefault();
+    StringEntity requestEntity = new StringEntity(
+        json,
+        ContentType.APPLICATION_JSON);
+
+    HttpPost postMethod = new HttpPost(url);
+    postMethod.setEntity(requestEntity);
+
+    HttpResponse rawResponse = httpClient.execute(postMethod);
+
+    System.out.println(rawResponse);
+
+    httpClient.close();
   }
 
 }
