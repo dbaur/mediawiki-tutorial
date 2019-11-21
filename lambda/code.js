@@ -1,47 +1,58 @@
 'use strict';
 
-const aws = require('aws-sdk');
-var ssm = new aws.SSM();
+const request = require('request');
 
 const getParam = param => {
+
+  var options = {
+    url: 'http://34.253.77.219:8080/kv/' + param,
+    headers: {
+      'Accept': 'application/json'
+    }
+  };
+
   return new Promise((res, rej) => {
-    ssm.getParameter({
-      Name: param
-    }, (err, data) => {
+    request.get(options, function (err, resp, body) {
       if (err) {
-        return rej(err)
+        rej(err);
+      } else {
+        res(body);
       }
-      return res(data)
     })
-})
+  })
 }
 
 const writeParam = (param, value) => {
-  return new Promise((res, rej) => {
-    ssm.putParameter({
-      Name: param,
-      Type: "String",
-      Value: value,
-      Overwrite: true
-    }, (err, data) => {
-      if (err) {
-        return rej(err)
-      }
-      return res(data)
-    })
-})
-}
 
+  var options = {
+    url: 'http://34.253.77.219:8080/kv/' + param,
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: value
+  };
+
+  return new Promise((res, rej) => {
+    request.put(options, function (err, resp, body) {
+      if (err) {
+        rej(err);
+      } else {
+        res(body);
+      }
+    })
+  })
+}
 
 module.exports.function = async (event, context, callback) => {
 
-  console.log("Event: "+JSON.stringify(event));
-  console.log("Context: "+JSON.stringify(context));
+  console.log("Event: " + JSON.stringify(event));
+  console.log("Context: " + JSON.stringify(context));
 
   var method = event.httpMethod;
   var body = event.body;
 
-  if(method === "GET") {
+  if (method === "GET") {
     const param = await getParam('wordcount')
     console.log(param);
     return {
@@ -50,10 +61,9 @@ module.exports.function = async (event, context, callback) => {
     };
   } else if (method === "POST") {
 
-
     var parsed = JSON.parse(body);
 
-    const write = await writeParam('wordcount',parsed.value)
+    const write = await writeParam('wordcount', parsed.value)
     console.log(write);
     const read = await getParam('wordcount')
     return {
@@ -63,7 +73,7 @@ module.exports.function = async (event, context, callback) => {
   } else {
     return {
       statusCode: 501,
-      body: JSON.stringify("Request method "+method+" is not supported.")
+      body: JSON.stringify("Request method " + method + " is not supported.")
     };
   }
 };
