@@ -2,10 +2,12 @@
 
 const request = require('request');
 
+const url = process.env.PUBLIC_RESTREQKV;
+
 const getParam = param => {
 
   var options = {
-    url: 'http://34.253.77.219:8080/kv/' + param,
+    url: 'http://' + url + ':8080/kv/' + param,
     headers: {
       'Accept': 'application/json'
     }
@@ -25,7 +27,7 @@ const getParam = param => {
 const writeParam = (param, value) => {
 
   var options = {
-    url: 'http://34.253.77.219:8080/kv/' + param,
+    url: 'http://' + url + ':8080/kv/' + param,
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
