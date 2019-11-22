@@ -36,7 +36,7 @@ public class App {
   private static final Pattern SPACE = Pattern.compile(" ");
   private static final String DATABASE = "PUBLIC_SPARKREQDATABASE";
   private static final String WIKI = "PUBLIC_SPARKREQWIKI";
-  private static final String FAAS = "PUBLIC_SPARKREQWORDCOUNT";
+  private static final String FAAS = "PUBLIC_SPARKREQREST";
   private static final String FAAS_REQUEST_PATTERN = "{ \"value\": \"%s\"}";
   private static final Logger LOGGER = Logger.getLogger(App.class);
 
