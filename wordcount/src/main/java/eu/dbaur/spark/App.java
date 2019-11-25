@@ -37,9 +37,10 @@ public class App {
   private static final String WIKI = "PUBLIC_SPARKREQWIKI";
   private static final String FAAS = "PUBLIC_SPARKREQREST";
   private static final String FINISH_ENDPOINT = "FINISH_ENDPOINT";
+  private static final String PROCESS_ID = "PROCESS_ID";
+  private static final String NODE_IDS = "NODE_IDS";
   private static final String FAAS_REQUEST_PATTERN = "{ \"value\": \"%s\"}";
   private static final Logger LOGGER = Logger.getLogger(App.class);
-
 
   public static void main(String[] args) throws ParseException, IOException {
 
@@ -51,6 +52,8 @@ public class App {
     options.addOption(FAAS, FAAS, true,
         "URL/IP of the wordcount faas");
     options.addOption(FINISH_ENDPOINT, FINISH_ENDPOINT, true, "FINISH ENDPOINT");
+    options.addOption(PROCESS_ID, PROCESS_ID, true, "Process ID");
+    options.addOption(NODE_IDS, NODE_IDS, true, "Node IDs");
 
     CommandLineParser parser = new BasicParser();
     final CommandLine parse = parser.parse(options, args);
