@@ -11,7 +11,6 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.commons.logging.impl.Log4JLogger;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
@@ -37,6 +36,7 @@ public class App {
   private static final String DATABASE = "PUBLIC_SPARKREQDATABASE";
   private static final String WIKI = "PUBLIC_SPARKREQWIKI";
   private static final String FAAS = "PUBLIC_SPARKREQREST";
+  private static final String FINISH_ENDPOINT = "FINISH_ENDPOINT";
   private static final String FAAS_REQUEST_PATTERN = "{ \"value\": \"%s\"}";
   private static final Logger LOGGER = Logger.getLogger(App.class);
 
@@ -50,6 +50,7 @@ public class App {
         "URL/IP of the wiki");
     options.addOption(FAAS, FAAS, true,
         "URL/IP of the wordcount faas");
+    options.addOption(FINISH_ENDPOINT, FINISH_ENDPOINT, true, "FINISH ENDPOINT");
 
     CommandLineParser parser = new BasicParser();
     final CommandLine parse = parser.parse(options, args);
@@ -63,9 +64,13 @@ public class App {
     if (!parse.hasOption(WIKI)) {
       throw new IllegalArgumentException("Argument " + WIKI + " is required");
     }
+    if (!parse.hasOption(FINISH_ENDPOINT)) {
+      throw new IllegalArgumentException("Argument " + FINISH_ENDPOINT + " is required");
+    }
 
     String database = parse.getOptionValue(DATABASE);
     String faas = parse.getOptionValue(FAAS);
+    String finishEndpoint = parse.getOptionValue(FINISH_ENDPOINT);
 
     final String jdbc = generateJDBCUrl(database);
 
@@ -106,6 +111,9 @@ public class App {
     //send the wordcount to the faas app
     sendPost(faas, String.format(FAAS_REQUEST_PATTERN, words.count()));
 
+    //send finish endpoint request
+    sendPost(finishEndpoint, null);
+
     sparkSession.stop();
   }
 
@@ -115,12 +123,14 @@ public class App {
 
   private static void sendPost(String url, String json) throws IOException {
     final CloseableHttpClient httpClient = HttpClients.createDefault();
-    StringEntity requestEntity = new StringEntity(
-        json,
-        ContentType.APPLICATION_JSON);
-
     HttpPost postMethod = new HttpPost(url);
-    postMethod.setEntity(requestEntity);
+
+    if (json != null) {
+      StringEntity requestEntity = new StringEntity(
+          json,
+          ContentType.APPLICATION_JSON);
+      postMethod.setEntity(requestEntity);
+    }
 
     HttpResponse rawResponse = httpClient.execute(postMethod);
 
