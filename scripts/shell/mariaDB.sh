@@ -37,7 +37,7 @@ configure() {
     mysql -u root -p${ROOT_PW} -e "FLUSH PRIVILEGES;"
 
     #configure bind address
-    sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
+    sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/mariadb.conf.d/50-server.cnf
 
     service mysql stop
 }
