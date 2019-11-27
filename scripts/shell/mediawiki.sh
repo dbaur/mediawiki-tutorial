@@ -6,7 +6,7 @@ source "$MY_DIR/util.sh"
 TMP_DIR="/tmp"
 
 # Download URL for mediawiki
-MW_DOWNLOAD_URL="https://releases.wikimedia.org/mediawiki/1.26/mediawiki-1.26.2.tar.gz"
+MW_DOWNLOAD_URL="https://releases.wikimedia.org/mediawiki/1.27/mediawiki-1.27.1.tar.gz"
 
 # Database
 DB="wiki"
@@ -21,7 +21,7 @@ PASS="admin1345"
 install() {
     apt_update
     # Install dependencies (apache2, php5, php5-mysql)
-    apt-get --yes install apache2 php7.0 php7.0-mysql wget
+    apt-get --yes install apache2 pimagemagick php7.0-intl php7.0-curl php7.0-gd php7.0-mbstring php7.0-mysql wget
     # remove existing mediawiki archive
     rm -f ${TMP_DIR}/mediawiki.tar.gz
     # download mediawiki tarball
