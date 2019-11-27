@@ -21,7 +21,7 @@ PASS="admin1345"
 install() {
     apt_update
     # Install dependencies (apache2, php5, php5-mysql)
-    apt-get --yes install apache2 pimagemagick php7.0-intl php7.0-curl php7.0-gd php7.0-mbstring php7.0-mysql wget
+    apt-get --yes install apache2 imagemagick php7.0-intl php7.0-curl php7.0-gd php7.0-mbstring php7.0-mysql wget php7.0-cli php7.0-xml libapache2-mod-php
     # remove existing mediawiki archive
     rm -f ${TMP_DIR}/mediawiki.tar.gz
     # download mediawiki tarball
