@@ -52,8 +52,6 @@ mv ${TMP_DIR}/wiki.tmp /etc/nginx/sites-available/wiki.conf
 rm -f /etc/nginx/sites-enabled/*
 ln -s /etc/nginx/sites-available/wiki.conf /etc/nginx/sites-enabled/wiki
 
-service nginx reload
-
 }
 
 start() {
