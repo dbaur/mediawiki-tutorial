@@ -13,13 +13,13 @@ install() {
 
     # install nginx
     nginx=stable
-    sudo add-apt-repository ppa:nginx/$nginx -y
-    sudo apt-get --yes update
-    sudo apt-get --yes install nginx
+    add-apt-repository ppa:nginx/$nginx -y
+    apt-get --yes update
+    apt-get --yes install nginx
 
-    sudo rm -f /etc/nginx/sites-enabled/*
+    rm -f /etc/nginx/sites-enabled/*
 
-    sudo service nginx stop
+    service nginx stop
 }
 
 configure() {
@@ -48,25 +48,25 @@ echo '      proxy_pass http://wiki;' >> ${TMP_DIR}/wiki.tmp
 echo '    }' >> ${TMP_DIR}/wiki.tmp
 echo '  }' >> ${TMP_DIR}/wiki.tmp
 
-sudo mv ${TMP_DIR}/wiki.tmp /etc/nginx/sites-available/wiki.conf
-sudo rm -f /etc/nginx/sites-enabled/*
-sudo ln -s /etc/nginx/sites-available/wiki.conf /etc/nginx/sites-enabled/wiki
+mv ${TMP_DIR}/wiki.tmp /etc/nginx/sites-available/wiki.conf
+rm -f /etc/nginx/sites-enabled/*
+ln -s /etc/nginx/sites-available/wiki.conf /etc/nginx/sites-enabled/wiki
 
-sudo service nginx reload
+service nginx reload
 
 }
 
 start() {
     # start nginx
-    sudo service nginx start
+    service nginx start
 }
 
 startBlocking() {
-    sudo service nginx start && sleep infinity
+    service nginx start && sleep infinity
 }
 
 stop() {
-    sudo service nginx stop
+    service nginx stop
 }
 
 ### main logic ###

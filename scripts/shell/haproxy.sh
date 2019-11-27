@@ -12,21 +12,21 @@ install() {
     apt_update
 
     #install haproxy
-    sudo apt-get -y install haproxy wget
+    apt-get -y install haproxy wget
 
     #enable haproxy
-    sudo sed -i "s/ENABLED=0/ENABLED=1/g" /etc/default/haproxy
+    sed -i "s/ENABLED=0/ENABLED=1/g" /etc/default/haproxy
 
     #configure rsyslog
     wget ${RSYSLOG_CONFIG_URL} -O ${TMP_DIR}/haProxyRsyslog.tmp
-    sudo cp ${TMP_DIR}/haProxyRsyslog.tmp /etc/rsyslog.d/haproxy.conf
+    cp ${TMP_DIR}/haProxyRsyslog.tmp /etc/rsyslog.d/haproxy.conf
 
-    sudo /etc/init.d/rsyslog stop
-    sudo /etc/init.d/rsyslog restart
+    /etc/init.d/rsyslog stop
+    /etc/init.d/rsyslog restart
     IPS="127.0.0.1"
     configure
 
-    sudo /etc/init.d/haproxy stop
+    /etc/init.d/haproxy stop
 
 }
 
@@ -51,30 +51,30 @@ do
     SERVERS+="server wiki$i $var:80 check\\n"
     ((i++))
 done
-sudo sed -i -e "s/\${servers}/${SERVERS}/" ${TMP_DIR}/haproxy.tmp
+sed -i -e "s/\${servers}/${SERVERS}/" ${TMP_DIR}/haproxy.tmp
 
 # mv temp file to real location
-sudo mv /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bak
-sudo mv ${TMP_DIR}/haproxy.tmp /etc/haproxy/haproxy.cfg
+mv /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bak
+mv ${TMP_DIR}/haproxy.tmp /etc/haproxy/haproxy.cfg
 
 # reload haproxy
-sudo /etc/init.d/haproxy reload
+/etc/init.d/haproxy reload
 
 }
 
 start() {
     # start haproxy
-    sudo /etc/init.d/haproxy start
+    /etc/init.d/haproxy start
 }
 
 startBlocking() {
     # start haproxy and sleep for infinity
-    sudo /etc/init.d/haproxy start && sleep infinity
+    /etc/init.d/haproxy start && sleep infinity
 }
 
 stop() {
     # stop haproxy
-    sudo /etc/init.d/haproxy stop
+    /etc/init.d/haproxy stop
 }
 
 ### main logic ###

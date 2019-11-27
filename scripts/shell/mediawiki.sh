@@ -21,26 +21,26 @@ PASS="admin1345"
 install() {
     apt_update
     # Install dependencies (apache2, php5, php5-mysql)
-    sudo apt-get --yes install apache2 php5 php5-mysql wget
+    apt-get --yes install apache2 php5 php5-mysql wget
     # remove existing mediawiki archive
     rm -f ${TMP_DIR}/mediawiki.tar.gz
     # download mediawiki tarball
     wget ${MW_DOWNLOAD_URL} -O ${TMP_DIR}/mediawiki.tar.gz
     # remove existing mediawiki folder
-    sudo rm -rf /opt/mediawiki
-    sudo mkdir -p /opt/mediawiki
+    rm -rf /opt/mediawiki
+    mkdir -p /opt/mediawiki
     # extract mediawiki tarball
-    sudo tar -xvzf ${TMP_DIR}/mediawiki.tar.gz -C /opt/mediawiki --strip-components=1
+    tar -xvzf ${TMP_DIR}/mediawiki.tar.gz -C /opt/mediawiki --strip-components=1
     # remove existing mediawiki symbolic link
-    sudo rm -rf /var/www/html/wiki
+    rm -rf /var/www/html/wiki
     # create symbolic link
-    sudo ln -s /opt/mediawiki /var/www/html/wiki
+    ln -s /opt/mediawiki /var/www/html/wiki
     # enable mod status
-    sudo a2enmod status
+    a2enmod status
     # allow server status from everywhere
-    sudo sed -i "s/Require local/#Require local/g" /etc/apache2/mods-enabled/status.conf
+    sed -i "s/Require local/#Require local/g" /etc/apache2/mods-enabled/status.conf
     # stop apache
-    sudo service apache2 stop
+    service apache2 stop
 }
 
 configure() {
@@ -48,22 +48,22 @@ configure() {
         echo "you need to supply a db host"
         exit 1
     fi
-    sudo service apache2 start
+    service apache2 start
     # run mediawiki installation skript
-    sudo php /opt/mediawiki/maintenance/install.php --dbuser ${DB_USER} --dbpass ${DB_PASS} --dbname ${DB} --dbserver ${DB_HOST} --pass ${PASS} $NAME "admin"
-    sudo service apache2 stop
+    php /opt/mediawiki/maintenance/install.php --dbuser ${DB_USER} --dbpass ${DB_PASS} --dbname ${DB} --dbserver ${DB_HOST} --pass ${PASS} $NAME "admin"
+    service apache2 stop
 }
 
 start() {
-    sudo service apache2 start
+    service apache2 start
 }
 
 startBlocking() {
-    sudo service apache2 start && sleep infinity
+    service apache2 start && sleep infinity
 }
 
 stop() {
-    sudo service apache stop
+    service apache stop
 }
 
 ### main logic ###

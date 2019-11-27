@@ -11,23 +11,23 @@ DB_PASS="password"
 install() {
     apt_update
     #set default root password for automated installation
-    sudo debconf-set-selections <<< 'mariadb-server mysql-server/root_password password '${ROOT_PW}
-    sudo debconf-set-selections <<< 'mariadb-server mysql-server/root_password_again password '${ROOT_PW}
-    sudo apt-get --yes install mariadb-server
-    sudo service mysql stop
+    debconf-set-selections <<< 'mariadb-server mysql-server/root_password password '${ROOT_PW}
+    debconf-set-selections <<< 'mariadb-server mysql-server/root_password_again password '${ROOT_PW}
+    apt-get --yes install mariadb-server
+    service mysql stop
 }
 
 start() {
-    sudo service mysql start
+    service mysql start
 }
 
 startBlocking() {
-    sudo service mysql start && sleep infinity
+    service mysql start && sleep infinity
 }
 
 
 configure() {
-    sudo service mysql start
+    service mysql start
 
     #create database
     mysql -u root -p${ROOT_PW} -e "CREATE DATABASE $DB;"
@@ -37,13 +37,13 @@ configure() {
     mysql -u root -p${ROOT_PW} -e "FLUSH PRIVILEGES;"
 
     #configure bind address
-    sudo sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
+    sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
 
-    sudo service mysql stop
+    service mysql stop
 }
 
 stop() {
-    sudo service mysql stop
+    service mysql stop
 }
 
 ### main logic ###

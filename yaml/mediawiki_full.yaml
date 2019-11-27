@@ -118,7 +118,7 @@ job:
         interval:
           unit: MINUTES
           period: '5'
-        collisionHandling: CANCEL
+        collisionHandling: PARALLEL
       ports:
         - type: PortRequired
           name: SPARKREQDATABASE
@@ -135,9 +135,9 @@ job:
           className: eu.dbaur.spark.App
           processMapping: CLUSTER
       requirements:
-        - constraint: nodes->forAll(hardware.cores >= 2)
+        - constraint: nodes->forAll(hardware.cores >= 3)
           type: OclRequirement
-        - constraint: nodes->forAll(hardware.ram >= 2048)
+        - constraint: nodes->forAll(hardware.ram >= 4000)
           type: OclRequirement
         - constraint: nodes->forAll(n | n.image.operatingSystem.family = OSFamily::UBUNTU)
           type: OclRequirement
