@@ -46,7 +46,7 @@ job:
             operatingSystemArchitecture: AMD64
             operatingSystemVersion: 1604
           type: LanceInterface
-          preInstall: sudo apt-get -y update && sudo apt-get -y install git && git clone
+          preInstall: apt-get -y update && apt-get -y install git && git clone
             https://github.com/dbaur/mediawiki-tutorial.git
           install: "./mediawiki-tutorial/scripts/lance/nginx.sh install"
           start: "./mediawiki-tutorial/scripts/lance/nginx.sh startBlocking"
@@ -69,7 +69,7 @@ job:
             operatingSystemFamily: UBUNTU
             operatingSystemArchitecture: AMD64
             operatingSystemVersion: 1604
-          preInstall: sudo apt-get -y update && sudo apt-get -y install git && git clone
+          preInstall: apt-get -y update && apt-get -y install git && git clone
             https://github.com/dbaur/mediawiki-tutorial.git
           install: "./mediawiki-tutorial/scripts/lance/mediawiki.sh install"
           postInstall: "./mediawiki-tutorial/scripts/lance/mediawiki.sh configure"
@@ -89,7 +89,7 @@ job:
             operatingSystemFamily: UBUNTU
             operatingSystemArchitecture: AMD64
             operatingSystemVersion: 1604
-          preInstall: sudo apt-get -y update && sudo apt-get -y install git && git clone
+          preInstall: apt-get -y update && apt-get -y install git && git clone
             https://github.com/dbaur/mediawiki-tutorial.git
           install: "./mediawiki-tutorial/scripts/lance/mariaDB.sh install"
           postInstall: "./mediawiki-tutorial/scripts/lance/mariaDB.sh configure"
