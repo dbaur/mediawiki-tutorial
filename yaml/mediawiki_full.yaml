@@ -41,6 +41,10 @@ job:
           isMandatory: 'false'
       interfaces:
         - containerType: DOCKER
+          operatingSystem:
+            operatingSystemFamily: UBUNTU
+            operatingSystemArchitecture: AMD64
+            operatingSystemVersion: 1604
           type: LanceInterface
           preInstall: sudo apt-get -y update && sudo apt-get -y install git && git clone
             https://github.com/dbaur/mediawiki-tutorial.git
@@ -61,6 +65,10 @@ job:
       interfaces:
         - type: LanceInterface
           containerType: DOCKER
+          operatingSystem:
+            operatingSystemFamily: UBUNTU
+            operatingSystemArchitecture: AMD64
+            operatingSystemVersion: 1604
           preInstall: sudo apt-get -y update && sudo apt-get -y install git && git clone
             https://github.com/dbaur/mediawiki-tutorial.git
           install: "./mediawiki-tutorial/scripts/lance/mediawiki.sh install"
@@ -77,6 +85,10 @@ job:
       interfaces:
         - type: LanceInterface
           containerType: DOCKER
+          operatingSystem:
+            operatingSystemFamily: UBUNTU
+            operatingSystemArchitecture: AMD64
+            operatingSystemVersion: 1604
           preInstall: sudo apt-get -y update && sudo apt-get -y install git && git clone
             https://github.com/dbaur/mediawiki-tutorial.git
           install: "./mediawiki-tutorial/scripts/lance/mariaDB.sh install"
