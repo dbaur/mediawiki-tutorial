@@ -6,7 +6,7 @@ source "$MY_DIR/util.sh"
 TMP_DIR="/tmp"
 
 # Download URL for mediawiki
-MW_DOWNLOAD_URL="https://releases.wikimedia.org/mediawiki/1.27/mediawiki-1.27.1.tar.gz"
+MW_DOWNLOAD_URL="https://releases.wikimedia.org/mediawiki/1.33/mediawiki-1.33.1.tar.gz"
 
 # Database
 DB="wiki"
